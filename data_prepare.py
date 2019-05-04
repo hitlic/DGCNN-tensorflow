@@ -32,7 +32,7 @@ class GNNGraph(object):
             node_features: 节点特征numpy数组
         '''
         self.g = g
-        self.num_nodes = len(node_tags)      # ---------------- 节点数量
+        self.num_nodes = g.number_of_nodes() # ---------------- 节点数量
         self.node_labels = node_tags         # ---------------- 边标签
         self.label = label                   # ---------------- 图标签
         self.node_features = node_features   # ---------------- 节点特征 numpy array (node_num * feature_dim)

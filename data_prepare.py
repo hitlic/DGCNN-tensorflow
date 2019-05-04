@@ -37,7 +37,8 @@ class GNNGraph(object):
         self.node_features = node_features   # ---------------- 节点特征 numpy array (node_num * feature_dim)
 
         self.degrees = list(dict(g.degree()).values())   # ---------------- 节点的度列表
-        self.edges = g.edges
+        self.edges = list(g.edges)           # 网络边列表
+
         ## 将边表示为numpy数组
         #if g.number_of_edges() != 0:
         #    x, y = zip(*g.edges())

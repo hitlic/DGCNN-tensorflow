@@ -182,25 +182,31 @@ def batching(graph_batch, params):
     
     # features 构造 ------------
     # 节点特征处理
-    node_features = None
-    if params.node_feature_dim == params.feature_dim:
+    if graph_batch[0].node_features is None:
+        node_features = None
+    else:
         node_features = [g.node_features for g in graph_batch]
         node_features = np.concatenate(node_features, 0)
     # 节点标签处理
-    features = None
+    node_tag_features = None
     if params.node_label_dim > 1:
         node_labes = []
         for g in graph_batch:
             node_labes += g.node_labels
-        features = np.array([onehot(n, params.node_label_dim) for n in node_labes])
-    if node_features is not None and features is not None:
-        features = np.concatenate([node_features, features], 1)
-    # 节点度作为特征
-    if features is None:
+        node_tag_features = np.array([onehot(n, params.node_label_dim) for n in node_labes])
+    # 合并特征
+    if node_features is None and node_tag_features is None:  # 若节点即无特也无标签，则以度为特征
         node_dgrees = []
         for g in graph_batch:
             node_dgrees += g.degrees
         features = node_dgrees
+    else:
+        if node_features is None:
+            features = node_tag_features
+        elif node_tag_features is None:
+            features = node_features
+        else:
+            features = np.concatenate([node_features, node_tag_features], 1)
 
     # 每个图的特征的索引开始位置和结束位置 -------- 
     g_num_nodes = [g.num_nodes for g in graph_batch]

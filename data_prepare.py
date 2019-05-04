@@ -31,14 +31,13 @@ class GNNGraph(object):
             node_tags: 节点标签整数列表
             node_features: 节点特征numpy数组
         '''
-        self.g = g
         self.num_nodes = g.number_of_nodes() # ---------------- 节点数量
         self.node_labels = node_tags         # ---------------- 边标签
         self.label = label                   # ---------------- 图标签
         self.node_features = node_features   # ---------------- 节点特征 numpy array (node_num * feature_dim)
 
         self.degrees = list(dict(g.degree()).values())   # ---------------- 节点的度列表
-
+        self.edges = g.edges
         ## 将边表示为numpy数组
         #if g.number_of_edges() != 0:
         #    x, y = zip(*g.edges())
@@ -222,7 +221,7 @@ def batching(graph_batch, params):
     for i, g in enumerate(graph_batch):
         total_node_degree.extend(g.degrees)
         start_pos = graph_indexes[i][0]
-        for e in g.g.edges:
+        for e in g.edges:
             node_from = start_pos + e[0]
             node_to = start_pos + e[1]
             indices_append([node_from, node_to])

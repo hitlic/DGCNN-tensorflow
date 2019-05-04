@@ -39,17 +39,17 @@ class GNNGraph(object):
 
         self.degrees = list(dict(g.degree()).values())   # ---------------- 节点的度列表
 
-        # 将边表示为numpy数组
-        if g.number_of_edges() != 0:
-            x, y = zip(*g.edges())
-            self.num_edges = len(x)           # ---------------- 边数量
-            self.edge_pairs = np.ndarray(shape=(self.num_edges, 2), dtype=np.int32)
-            self.edge_pairs[:, 0] = x
-            self.edge_pairs[:, 1] = y
-            self.edge_pairs = self.edge_pairs.flatten()   # ---------------- 边对组
-        else:
-            self.num_edges = 0
-            self.edge_pairs = np.array([])
+        ## 将边表示为numpy数组
+        #if g.number_of_edges() != 0:
+        #    x, y = zip(*g.edges())
+        #    self.num_edges = len(x)           # ---------------- 边数量
+        #    self.edge_pairs = np.ndarray(shape=(self.num_edges, 2), dtype=np.int32)
+        #    self.edge_pairs[:, 0] = x
+        #    self.edge_pairs[:, 1] = y
+        #    self.edge_pairs = self.edge_pairs.flatten()   # ---------------- 边对组
+        #else:
+        #    self.num_edges = 0
+        #    self.edge_pairs = np.array([])
 
         # 处理图的边特征，表示为numpy数组
         # self.edge_features = None
